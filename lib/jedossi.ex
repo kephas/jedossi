@@ -23,4 +23,17 @@ defmodule Jedossi do
 		nil
 	end
   end
+
+  def stop_timer(name) do
+	time = System.monotonic_time()
+
+	timer = get_value(name)
+	case hd(timer) do
+	  {_, _} ->
+		nil
+
+	  start when is_interger(start) ->
+		store_value(name, [{time, start} | tl(timer)])
+	end
+  end
 end
