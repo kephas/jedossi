@@ -32,7 +32,7 @@ defmodule Jedossi do
 	  {_, _} ->
 		nil
 
-	  start when is_interger(start) ->
+	  start when is_integer(start) ->
 		store_value(name, [{time, start} | tl(timer)])
 	end
   end
