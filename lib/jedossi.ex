@@ -14,13 +14,22 @@ defmodule Jedossi do
   def start_timer(name) do
 	time = System.monotonic_time()
 
-	timer = get_value(name)
-	case hd(timer) do
-	  {_, _} ->
-		store_value(name, [time | timer])
+	timer = case get_value(name) do
+			  nil -> []
+			  list when is_list(list) -> list
+			end
 
-	  start when is_integer(start) ->
-		nil
+	case timer do
+	  [ head | _ ] ->
+		case head do
+		  {_, _} ->
+			store_value(name, [time | timer])
+
+		  start when is_integer(start) ->
+			nil
+		end
+	  [] ->
+		store_value(name, [time])
 	end
   end
 
