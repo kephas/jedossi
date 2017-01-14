@@ -1,33 +1,34 @@
 defmodule JedossiTest do
   use ExUnit.Case
   doctest Jedossi
+  import Jedossi
 
   test "store/get" do
-	Jedossi.create_store()
-	Jedossi.store_value(:foo, :bar)
-	assert :bar == Jedossi.get_value(:foo)
+	create_store()
+	store_value(:foo, :bar)
+	assert :bar == get_value(:foo)
   end
 
   test "start" do
-	Jedossi.create_store()
-	Jedossi.start_timer(:foo)
+	create_store()
+	start_timer(:foo)
 
-	old = Jedossi.get_value(:foo)
+	old = get_value(:foo)
 	assert is_list(old)
 
-	Jedossi.start_timer(:foo)
-	assert old == Jedossi.get_value(:foo)
+	start_timer(:foo)
+	assert old == get_value(:foo)
   end
 
   test "stop" do
-	Jedossi.create_store()
+	create_store()
 
-	Jedossi.stop_timer(:foo)
-	assert [] == Jedossi.get_value(:foo)
+	stop_timer(:foo)
+	assert [] == get_value(:foo)
 
-	Jedossi.start_timer(:foo)
-	Jedossi.stop_timer(:foo)
+	start_timer(:foo)
+	stop_timer(:foo)
 
-	assert 1 == length(Jedossi.get_value(:foo))
+	assert 1 == length(get_value(:foo))
   end
 end
