@@ -11,13 +11,17 @@ defmodule Jedossi do
 	Agent.get(:store, fn map -> Map.get(map, key) end)
   end
 
+  def get_timer(name) do
+	case get_value(name) do
+	  nil -> []
+	  list when is_list(list) -> list
+	end
+  end
+
   def start_timer(name) do
 	time = System.monotonic_time()
 
-	timer = case get_value(name) do
-			  nil -> []
-			  list when is_list(list) -> list
-			end
+	timer = get_timer(name)
 
 	case timer do
 	  [ head | _ ] ->
@@ -36,13 +40,19 @@ defmodule Jedossi do
   def stop_timer(name) do
 	time = System.monotonic_time()
 
-	timer = get_value(name)
-	case hd(timer) do
-	  {_, _} ->
-		nil
+	timer = get_timer(name)
 
-	  start when is_integer(start) ->
-		store_value(name, [{time, start} | tl(timer)])
+	case timer do
+	  [ head | _ ] ->
+		case head do
+		  {_, _} ->
+			nil
+
+		  start when is_integer(start) ->
+			store_value(name, [{time, start} | tl(timer)])
+		end
+	  [] ->
+		store_value(name, [])
 	end
   end
 end
