@@ -68,4 +68,8 @@ defmodule Jedossi do
   def start_all() do
 	map(get_all_keys(), &start_timer(&1))
   end
+
+  def stop_all() do
+	map(get_all_keys(), &stop_timer(&1))
+  end
 end

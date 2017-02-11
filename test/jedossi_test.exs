@@ -55,4 +55,18 @@ defmodule JedossiTest do
 										  end
 	                              end) == []
   end
+
+  test "stop_all" do
+	create_store()
+
+	start_timer(:foo)
+	start_timer(:bar)
+	start_timer(:baz)
+
+	stop_all()
+
+	timers =  get_all_values()
+	assert reject(map(timers, &length(&1)), fn ln -> ln == 1 end) == []
+	assert reject(timers, &is_tuple(hd(&1))) == []
+  end
 end
