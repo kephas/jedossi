@@ -2,6 +2,7 @@ defmodule JedossiTest do
   use ExUnit.Case
   doctest Jedossi
   import Jedossi
+  import Enum
 
   test "store/get" do
 	create_store()
@@ -30,5 +31,28 @@ defmodule JedossiTest do
 	stop_timer(:foo)
 
 	assert 1 == length(get_value(:foo))
+  end
+
+  test "start_all" do
+	create_store()
+
+	start_all()
+	assert get_all_keys == []
+
+	stop_timer(:foo)
+	stop_timer(:bar)
+	stop_timer(:baz)
+
+	start_all()
+
+	timers =  get_all_values()
+	lengths = map(timers, fn timer -> length(timer) end)
+	assert length(filter(lengths, fn ln -> ln == 1 end)) == 3
+
+	assert reject(get_all_values, fn x -> case x do
+											[] -> false
+											[head | _ ] -> is_integer(head)
+										  end
+	                              end) == []
   end
 end

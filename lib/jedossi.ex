@@ -11,6 +11,14 @@ defmodule Jedossi do
 	Agent.get(:store, fn map -> Map.get(map, key) end)
   end
 
+  def get_all_values() do
+	Map.values(Agent.get(:store, fn map -> map end))
+  end
+
+  def get_all_keys() do
+	Map.keys(Agent.get(:store, fn map -> map end))
+  end
+
   def get_timer(name) do
 	case get_value(name) do
 	  nil -> []
@@ -54,5 +62,8 @@ defmodule Jedossi do
 	  [] ->
 		store_value(name, [])
 	end
+  end
+
+  def start_all() do
   end
 end
