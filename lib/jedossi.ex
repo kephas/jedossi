@@ -66,6 +66,6 @@ defmodule Jedossi do
   end
 
   def start_all() do
-	map(get_all_keys(),fn k -> start_timer(k) end)
+	map(get_all_keys(), &start_timer(&1))
   end
 end
