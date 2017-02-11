@@ -1,4 +1,5 @@
 defmodule Jedossi do
+  import Enum
   def create_store do
 	{:ok, _} = Agent.start_link(fn -> %{} end, name: :store)
   end
@@ -65,5 +66,6 @@ defmodule Jedossi do
   end
 
   def start_all() do
+	map(get_all_keys(),fn k -> start_timer(k) end)
   end
 end
