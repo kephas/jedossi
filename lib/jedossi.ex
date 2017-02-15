@@ -27,8 +27,12 @@ defmodule Jedossi do
 	end
   end
 
+  def now() do
+	System.monotonic_time()
+  end
+
   def start_timer(name) do
-	time = System.monotonic_time()
+	time = now()
 
 	timer = get_timer(name)
 
@@ -47,7 +51,7 @@ defmodule Jedossi do
   end
 
   def stop_timer(name) do
-	time = System.monotonic_time()
+	time = now()
 
 	timer = get_timer(name)
 
@@ -90,5 +94,9 @@ defmodule Jedossi do
 	  [] ->
 		0
 	end
+  end
+
+  def timer_length_now(name) do
+	timer_length(get_timer(name), now())
   end
 end
