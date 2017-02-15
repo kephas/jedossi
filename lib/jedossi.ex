@@ -72,4 +72,23 @@ defmodule Jedossi do
   def stop_all() do
 	map(get_all_keys(), &stop_timer(&1))
   end
+
+  def timer_length(timer, time) do
+	case timer do
+	  [ head | tail ] ->
+		case head do
+		  {stop, start} ->
+			(stop - start) + timer_length(tail, time)
+
+		  start when is_integer(start) ->
+			if start > time do
+			  raise "Timer started after now?!"
+			else
+			  (time - start) + timer_length(tail, time)
+			end
+		end
+	  [] ->
+		0
+	end
+  end
 end

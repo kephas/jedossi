@@ -69,4 +69,12 @@ defmodule JedossiTest do
 	assert reject(map(timers, &length(&1)), fn ln -> ln == 1 end) == []
 	assert reject(timers, &is_tuple(hd(&1))) == []
   end
+
+  test "timer_length" do
+	assert 0 == timer_length([], 0)
+	assert 0 == timer_length([], 100)
+	assert 300 == timer_length([{500,400},{300,200},{100,0}], 0)
+	assert 300 == timer_length([400,{300,200},{100,0}], 500)
+	assert_raise RuntimeError, fn -> timer_length([400,{300,200},{100,0}], 0) end
+  end
 end
